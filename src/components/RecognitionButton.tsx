@@ -14,7 +14,7 @@ const RecognitionButton = ({ onRecognize, isProcessing, disabled }: RecognitionB
     <Button
       onClick={onRecognize}
       disabled={isProcessing || disabled}
-      className={`bg-[#22C55E] hover:bg-[#00BC4C] text-white py-3 px-6 rounded-xl flex items-center justify-center text-lg font-semibold transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`bg-[#22C55E] hover:bg-[#00BC4C] text-white py-3 px-6 rounded-xl flex items-center justify-center text-lg font-semibold transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed w-full`}
     >
       {isProcessing ? (
         <>
