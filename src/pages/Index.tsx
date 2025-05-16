@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 import ImageUploader from '@/components/ImageUploader';
 import RecognitionButton from '@/components/RecognitionButton';
@@ -142,7 +141,7 @@ const Index = () => {
 
         {/* Main content */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Left column - Upload & Preview */}
+          {/* Left column - Upload */}
           <div className="lg:col-span-3 space-y-6">
             <div className="bg-[#112221] p-6 rounded-2xl shadow-xl">
               <h2 className="text-xl font-semibold mb-4 text-[#00E8CF]">Image Upload</h2>
@@ -151,28 +150,6 @@ const Index = () => {
                 onLiveFrameAnalysis={handleLiveFrame} 
               />
             </div>
-
-            {imageUrl && (
-              <div className="bg-[#112221] p-6 rounded-2xl shadow-xl">
-                <h2 className="text-xl font-semibold mb-4 text-[#00E8CF]">Image Preview</h2>
-                <div className="relative rounded-xl overflow-hidden">
-                  <img
-                    ref={imageRef}
-                    src={imageUrl}
-                    alt="Preview"
-                    className="w-full rounded-xl"
-                    onLoad={handleImageLoad}
-                  />
-                  {results.length > 0 && (
-                    <DetectionOverlay
-                      detections={results}
-                      imageWidth={imageDimensions.width}
-                      imageHeight={imageDimensions.height}
-                    />
-                  )}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Right column - Actions & Results */}
