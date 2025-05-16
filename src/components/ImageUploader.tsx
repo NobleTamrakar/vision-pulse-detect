@@ -2,15 +2,16 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from '@/components/ui/sonner';
-import { Upload, Image, X, Camera } from 'lucide-react';
+import { Upload, Image, X, Camera, Video } from 'lucide-react';
 import CameraCapture from './CameraCapture';
 import { Button } from '@/components/ui/button';
 
 interface ImageUploaderProps {
   onImageUpload: (file: File) => void;
+  onLiveFrameAnalysis?: (imageData: ImageData) => void;
 }
 
-const ImageUploader = ({ onImageUpload }: ImageUploaderProps) => {
+const ImageUploader = ({ onImageUpload, onLiveFrameAnalysis }: ImageUploaderProps) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
 
@@ -49,7 +50,7 @@ const ImageUploader = ({ onImageUpload }: ImageUploaderProps) => {
     setShowCamera(false);
   };
 
-  const handleOpenCamera = () => {
+  const handleOpenCamera = (liveMode: boolean = false) => {
     // Check if the browser supports getUserMedia
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       toast.error('Your browser does not support camera access');
@@ -64,6 +65,7 @@ const ImageUploader = ({ onImageUpload }: ImageUploaderProps) => {
         <CameraCapture 
           onCapture={handleCaptureImage}
           onClose={() => setShowCamera(false)}
+          onLiveFrame={onLiveFrameAnalysis}
         />
       )}
 
@@ -90,13 +92,25 @@ const ImageUploader = ({ onImageUpload }: ImageUploaderProps) => {
             </p>
           </div>
           
-          <Button
-            onClick={handleOpenCamera}
-            className="w-full mt-3 bg-[#054938] text-[#F0F2F0] hover:bg-[#094534] transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <Camera className="w-5 h-5" />
-            <span>Take a Photo</span>
-          </Button>
+          <div className="mt-3 flex gap-2">
+            <Button
+              onClick={() => handleOpenCamera(false)}
+              className="flex-1 bg-[#054938] text-[#F0F2F0] hover:bg-[#094534] transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <Camera className="w-5 h-5" />
+              <span>Take a Photo</span>
+            </Button>
+            
+            {onLiveFrameAnalysis && (
+              <Button
+                onClick={() => handleOpenCamera(true)}
+                className="flex-1 bg-[#054938] text-[#F0F2F0] hover:bg-[#094534] transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <Video className="w-5 h-5" />
+                <span>Live Analysis</span>
+              </Button>
+            )}
+          </div>
         </div>
       ) : (
         <div className="relative w-full">
@@ -128,11 +142,20 @@ const ImageUploader = ({ onImageUpload }: ImageUploaderProps) => {
             </div>
             
             <Button
-              onClick={handleOpenCamera}
+              onClick={() => handleOpenCamera(false)}
               className="py-2 px-4 bg-[#054938] text-[#F0F2F0] rounded-lg hover:bg-[#094534] transition-all duration-300 flex items-center justify-center"
             >
               <Camera className="w-5 h-5" />
             </Button>
+            
+            {onLiveFrameAnalysis && (
+              <Button
+                onClick={() => handleOpenCamera(true)}
+                className="py-2 px-4 bg-[#054938] text-[#F0F2F0] rounded-lg hover:bg-[#094534] transition-all duration-300 flex items-center justify-center"
+              >
+                <Video className="w-5 h-5" />
+              </Button>
+            )}
           </div>
         </div>
       )}
